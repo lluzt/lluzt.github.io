@@ -57,19 +57,21 @@
   };
 </script>
 
-  <meta name="description" content="Hexo搭建GitHub博客安装NodeJSNodeJS安装包下载地址 : https://nodejs.org/ 安装Hexo1$ npm install hexo -g  创建Hexo工程1$ hexo generate  使用NexT主题1$ git clone https://github.com/theme-next/hexo-theme-next themes/next  _confi">
-<meta name="keywords" content="Hexo">
+  <meta name="description" content="Mysql MVCCMVCC是Multi Version Concurrency Control的简称，代表多版本并发控制。实现读不阻塞写，写不阻塞读 12345678910111213数据库事务的ACID特性:Atomicity(原子性), Consistency(一致性), Isolation(隔离性), Durability(持久性) * 原子性表示一个事务的操作结果要么全部执行要么全部不执">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="搭建博客过程">
-<meta property="og:url" content="https://lluzt.github.io/2019/07/31/搭建博客过程/index.html">
+<meta property="og:title" content="Mysql MVCC（二）">
+<meta property="og:url" content="https://lluzt.github.io/2019/07/31/Mysql-MVCC（二）/index.html">
 <meta property="og:site_name" content="卢至彤">
-<meta property="og:description" content="Hexo搭建GitHub博客安装NodeJSNodeJS安装包下载地址 : https://nodejs.org/ 安装Hexo1$ npm install hexo -g  创建Hexo工程1$ hexo generate  使用NexT主题1$ git clone https://github.com/theme-next/hexo-theme-next themes/next  _confi">
+<meta property="og:description" content="Mysql MVCCMVCC是Multi Version Concurrency Control的简称，代表多版本并发控制。实现读不阻塞写，写不阻塞读 12345678910111213数据库事务的ACID特性:Atomicity(原子性), Consistency(一致性), Isolation(隔离性), Durability(持久性) * 原子性表示一个事务的操作结果要么全部执行要么全部不执">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-31T08:22:08.989Z">
+<meta property="og:image" content="https://lluzt.github.io/2019/07/31/Mysql-MVCC（二）/undolog.jpg">
+<meta property="og:updated_time" content="2019-07-31T10:10:23.405Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="搭建博客过程">
-<meta name="twitter:description" content="Hexo搭建GitHub博客安装NodeJSNodeJS安装包下载地址 : https://nodejs.org/ 安装Hexo1$ npm install hexo -g  创建Hexo工程1$ hexo generate  使用NexT主题1$ git clone https://github.com/theme-next/hexo-theme-next themes/next  _confi">
-  <link rel="canonical" href="https://lluzt.github.io/2019/07/31/搭建博客过程/">
+<meta name="twitter:title" content="Mysql MVCC（二）">
+<meta name="twitter:description" content="Mysql MVCCMVCC是Multi Version Concurrency Control的简称，代表多版本并发控制。实现读不阻塞写，写不阻塞读 12345678910111213数据库事务的ACID特性:Atomicity(原子性), Consistency(一致性), Isolation(隔离性), Durability(持久性) * 原子性表示一个事务的操作结果要么全部执行要么全部不执">
+<meta name="twitter:image" content="https://lluzt.github.io/2019/07/31/Mysql-MVCC（二）/undolog.jpg">
+  <link rel="canonical" href="https://lluzt.github.io/2019/07/31/Mysql-MVCC（二）/">
 
 
 <script id="page.configurations">
@@ -78,7 +80,7 @@
   };
 </script>
 
-  <title>搭建博客过程 | 卢至彤</title>
+  <title>Mysql MVCC（二） | 卢至彤</title>
   
 
 
@@ -226,7 +228,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lluzt.github.io/2019/07/31/搭建博客过程/">
+    <link itemprop="mainEntityOfPage" href="https://lluzt.github.io/2019/07/31/Mysql-MVCC（二）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="卢至彤">
@@ -240,7 +242,7 @@
       <header class="post-header">
 
         
-          <h1 class="post-title" itemprop="name headline">搭建博客过程
+          <h1 class="post-title" itemprop="name headline">Mysql MVCC（二）
 
               
             
@@ -260,7 +262,7 @@
                 
               
 
-              <time title="创建时间：2019-07-31 15:19:42 / 修改时间：16:22:08" itemprop="dateCreated datePublished" datetime="2019-07-31T15:19:42+08:00">2019-07-31</time>
+              <time title="创建时间：2019-07-31 16:28:28 / 修改时间：18:10:23" itemprop="dateCreated datePublished" datetime="2019-07-31T16:28:28+08:00">2019-07-31</time>
             </span>
           
             
@@ -279,23 +281,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Hexo搭建GitHub博客"><a href="#Hexo搭建GitHub博客" class="headerlink" title="Hexo搭建GitHub博客"></a>Hexo搭建GitHub博客</h1><h3 id="安装NodeJS"><a href="#安装NodeJS" class="headerlink" title="安装NodeJS"></a>安装NodeJS</h3><p>NodeJS安装包下载地址 : <a href="https://nodejs.org/" target="_blank" rel="noopener">https://nodejs.org/</a></p>
-<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo -g</span><br></pre></td></tr></table></figure>
+        <h1 id="Mysql-MVCC"><a href="#Mysql-MVCC" class="headerlink" title="Mysql MVCC"></a>Mysql MVCC</h1><p>MVCC是Multi Version Concurrency Control的简称，代表多版本并发控制。实现读不阻塞写，写不阻塞读</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">数据库事务的ACID特性:Atomicity(原子性), Consistency(一致性), Isolation(隔离性), Durability(持久性) </span><br><span class="line">* 原子性表示一个事务的操作结果要么全部执行要么全部不执行。</span><br><span class="line">* 一致性表示事务总是从一个一致的状态转换到另一个一致的状态。</span><br><span class="line">* 隔离性表示一个事务的修改结果在什么时间能够被其他事务看到，SQL1992规范中对隔离性定义了不同的隔离级别：</span><br><span class="line">    1.读未提交(READ UNCOMMITED)：事务能够看到其他事务没有提及的修改，可能出现dirty read。</span><br><span class="line">    2.读已提交(READ COMMITTED)：事务能够看到其他事务提交后的修改，这时会出现一个事务内两次读取数据可能因为其他事务提交的修改导致不一致的情况，称为不可重复读。 </span><br><span class="line">    3.可重复读(REPEATABLE READ)：在两次读取时读取到的数据的状态是一致的。</span><br><span class="line">    4.序列化(SERIALIZABLE)：可重复读中可能出现第二次读读到第一次没有读到的数据，也就是被其他事务插入的数据，这种情况称为幻读phantom read, 序列化级别中不能出现幻读。</span><br><span class="line">隔离级别依次增强，并发能力依次减弱。</span><br><span class="line"></span><br><span class="line">和Java中的多线程问题相同，数据库通常使用锁来实现隔离性。</span><br><span class="line">    1.读写锁</span><br><span class="line">    2.读写锁冲突解决：不同的事务session会看到自己特定版本的数据，即快照。</span><br></pre></td></tr></table></figure>
 
-<h3 id="创建Hexo工程"><a href="#创建Hexo工程" class="headerlink" title="创建Hexo工程"></a>创建Hexo工程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* binlog:常用来进行数据恢复、数据库复制，常见的mysql主从架构，就是采用slave同步master的binlog实现的, 另外通过解析binlog能够实现mysql到其他数据源（如ElasticSearch)的数据复制。</span><br><span class="line">* redo log:记录了数据操作在物理层面的修改，mysql中使用了大量缓存，缓存存在于内存中，修改操作时会直接修改内存，而不是立刻修改磁盘，当内存和磁盘的数据不一致时，称内存中的数据为脏页(dirty page)。为了保证数据的安全性，事务进行中时会不断的产生redo log，在事务提交时进行一次flush操作，保存到磁盘中, redo log是按照顺序写入的，磁盘的顺序读写的速度远大于随机读写。当数据库或主机失效重启时，会根据redo log进行数据的恢复。</span><br><span class="line">* undo Log: 通过undo log可以实现事务回滚，并且可以根据undo log回溯到某个特定的版本的数据，实现MVCC。在Innodb中存在purge线程，它会查询那些比现在最老的活动事务还早的undo log，并删除它们，从而保证undo log文件不至于无限增长。</span><br></pre></td></tr></table></figure>
 
-<h3 id="使用NexT主题"><a href="#使用NexT主题" class="headerlink" title="使用NexT主题"></a>使用NexT主题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<p><img src="undolog.jpg" alt></p>
+<p>InnoDB表会有三个隐藏字段</p>
+<ul>
+<li>6字节的DB_ROW_ID</li>
+<li>6字节的DB_TX_ID</li>
+<li>7字节的DB_ROLL_PTR </li>
+</ul>
+<p>在每个事务开始的时候，会将当前系统中的所有的活跃事务拷贝到一个列表中 (read view)，根据read view最早一个事务ID和最晚的一个事务ID来做比较的，这样就能确保在当前事务之前没有提交的所有事务的变更以及后续新启动的事务的变更，在当前事务中都是看不到的。</p>
+<p>###参考<br><a href="https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/" target="_blank" rel="noopener">https://liuzhengyang.github.io/2017/04/18/innodb-mvcc/</a></p>
 
-<p>_config.yml    </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: next</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动本地服务查看"><a href="#启动本地服务查看" class="headerlink" title="启动本地服务查看"></a>启动本地服务查看</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo serve --debug</span><br></pre></td></tr></table></figure>
-
-<h3 id="github创建站点"><a href="#github创建站点" class="headerlink" title="github创建站点"></a>github创建站点</h3><p>创建 repository <strong>lluzt.github.io</strong></p>
-<h3 id="github发布配置"><a href="#github发布配置" class="headerlink" title="github发布配置"></a>github发布配置</h3><p>_config.yml  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:git</span><br><span class="line">  repo: git@github.com:lluzt/lluzt.github.io.git </span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<h3 id="发布命令"><a href="#发布命令" class="headerlink" title="发布命令"></a>发布命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo serve</span><br><span class="line"></span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -306,18 +306,22 @@
           
         
         <div class="post-tags">
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
         </div>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
+              <a href="/2019/07/31/mit6824-mapreduce/" rel="next" title="mit6824-mapreduce">
+                <i class="fa fa-chevron-left"></i> mit6824-mapreduce
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-              <a href="/2019/07/31/mit6824-mapreduce/" rel="prev" title="mit6824-mapreduce">
-                mit6824-mapreduce <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/31/Mysql-优化（三）/" rel="prev" title="Mysql 优化（三）">
+                Mysql 优化（三） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -432,7 +436,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo搭建GitHub博客"><span class="nav-number">1.</span> <span class="nav-text">Hexo搭建GitHub博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装NodeJS"><span class="nav-number">1.0.1.</span> <span class="nav-text">安装NodeJS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Hexo"><span class="nav-number">1.0.2.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Hexo工程"><span class="nav-number">1.0.3.</span> <span class="nav-text">创建Hexo工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用NexT主题"><span class="nav-number">1.0.4.</span> <span class="nav-text">使用NexT主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动本地服务查看"><span class="nav-number">1.0.5.</span> <span class="nav-text">启动本地服务查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github创建站点"><span class="nav-number">1.0.6.</span> <span class="nav-text">github创建站点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github发布配置"><span class="nav-number">1.0.7.</span> <span class="nav-text">github发布配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布命令"><span class="nav-number">1.0.8.</span> <span class="nav-text">发布命令</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Mysql-MVCC"><span class="nav-number">1.</span> <span class="nav-text">Mysql MVCC</span></a></li></ol></div>
             
 
           </div>
