@@ -42,10 +42,10 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     search: {
       root: '/',
-      path: ''
+      path: 'search.xml'
     },
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -57,17 +57,18 @@
   };
 </script>
 
-  <meta name="description" content="Java 日志框架Java应用日志收集都是采用日志框架(slf4j、apache commons logging)+日志系统（log4j、log4j2、LogBack、JUL等）的方式 123456789101112日志框架：提供日志调用的接口，实际的日志输出托付给日志系统实现。    JCL(Jakarta Commons Logging)：也称为&amp;quot;Apache Commons Log">
+  <meta name="description" content="Java 日志框架类别JDK日志JDK官方提供的一个记录日志的方式，直接在 JDK 中就可以使用。但 JDKLog 功能比较太过于简单，不支持占位符显示，拓展性比较差. 12345678910111213import java.util.logging.Logger;/**** ** JDKLog Demo **/public class JDKLog&amp;#123;    public static">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 日志框架">
 <meta property="og:url" content="https://lluzt.github.io/2019/08/29/Java-日志框架/index.html">
 <meta property="og:site_name" content="卢至彤">
-<meta property="og:description" content="Java 日志框架Java应用日志收集都是采用日志框架(slf4j、apache commons logging)+日志系统（log4j、log4j2、LogBack、JUL等）的方式 123456789101112日志框架：提供日志调用的接口，实际的日志输出托付给日志系统实现。    JCL(Jakarta Commons Logging)：也称为&amp;quot;Apache Commons Log">
+<meta property="og:description" content="Java 日志框架类别JDK日志JDK官方提供的一个记录日志的方式，直接在 JDK 中就可以使用。但 JDKLog 功能比较太过于简单，不支持占位符显示，拓展性比较差. 12345678910111213import java.util.logging.Logger;/**** ** JDKLog Demo **/public class JDKLog&amp;#123;    public static">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-30T08:33:47.211Z">
+<meta property="og:updated_time" content="2019-08-30T10:03:53.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 日志框架">
-<meta name="twitter:description" content="Java 日志框架Java应用日志收集都是采用日志框架(slf4j、apache commons logging)+日志系统（log4j、log4j2、LogBack、JUL等）的方式 123456789101112日志框架：提供日志调用的接口，实际的日志输出托付给日志系统实现。    JCL(Jakarta Commons Logging)：也称为&amp;quot;Apache Commons Log">
+<meta name="twitter:description" content="Java 日志框架类别JDK日志JDK官方提供的一个记录日志的方式，直接在 JDK 中就可以使用。但 JDKLog 功能比较太过于简单，不支持占位符显示，拓展性比较差. 12345678910111213import java.util.logging.Logger;/**** ** JDKLog Demo **/public class JDKLog&amp;#123;    public static">
   <link rel="canonical" href="https://lluzt.github.io/2019/08/29/Java-日志框架/">
 
 
@@ -200,9 +201,36 @@
     <a href="/reference/" rel="section"><i class="menu-item-icon fa fa-fw fa-simplybuilt"></i> <br/>reference</a>
 
   </li>
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>搜索</a>
+        </li>
+      
     </ul>
     
 
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
 </nav>
 
 </div>
@@ -272,7 +300,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-08-30 16:33:47" itemprop="dateModified" datetime="2019-08-30T16:33:47+08:00">2019-08-30</time>
+                <time title="修改时间：2019-08-30 18:03:53" itemprop="dateModified" datetime="2019-08-30T18:03:53+08:00">2019-08-30</time>
               </span>
             
           
@@ -288,12 +316,131 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Java-日志框架"><a href="#Java-日志框架" class="headerlink" title="Java 日志框架"></a>Java 日志框架</h1><p>Java应用日志收集都是采用日志框架(slf4j、apache commons logging)+日志系统（log4j、log4j2、LogBack、JUL等）的方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">日志框架：提供日志调用的接口，实际的日志输出托付给日志系统实现。</span><br><span class="line">    JCL(Jakarta Commons Logging)：也称为&quot;Apache Commons Logging&quot;</span><br><span class="line">    SLF4j：提供新的API，初衷是配合Logback使用，但同一时候兼容Log4j。</span><br><span class="line"></span><br><span class="line">日志系统：负责输出日志</span><br><span class="line">    Log4j：经典日志解决。内部把日志系统抽象封装成Logger 、appender 、pattern 等实现。</span><br><span class="line">        Appenders：也被称为Handlers。负责将日志事件记录到目标位置。在将日志事件输出之前，Appenders使用Layouts来对事件进行格式化处理。</span><br><span class="line">        Layouts：也被称为Formatters，它负责对日志事件中的数据进行转换和格式化。Layouts决定了数据在一条日志记录中的终于形式。</span><br><span class="line">        Loggers：Logger负责捕捉事件并将其发送给合适的Appender。</span><br><span class="line">    Log4j2：Log4j的2.0版本号。对Log4j进行了优化。比方支持參数API、支持异步appender、插件式架构等</span><br><span class="line">    Logback:</span><br><span class="line">    JUL(java.util.logging)：JDK提供的日志系统。</span><br></pre></td></tr></table></figure>
+        <h1 id="Java-日志框架"><a href="#Java-日志框架" class="headerlink" title="Java 日志框架"></a>Java 日志框架</h1><h2 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h2><h3 id="JDK日志"><a href="#JDK日志" class="headerlink" title="JDK日志"></a>JDK日志</h3><p>JDK官方提供的一个记录日志的方式，直接在 JDK 中就可以使用。但 JDKLog 功能比较太过于简单，不支持占位符显示，拓展性比较差.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import java.util.logging.Logger;</span><br><span class="line"></span><br><span class="line">/****</span><br><span class="line"> ** JDKLog Demo</span><br><span class="line"> **/</span><br><span class="line">public class JDKLog</span><br><span class="line">&#123;</span><br><span class="line">    public static void main( String[] args )</span><br><span class="line">    &#123;</span><br><span class="line">        Logger logger = Logger.getLogger(&quot;JDKLog&quot;);</span><br><span class="line">        logger.info(&quot;Hello World.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h2><h3 id="Commons-Logging实现机制"><a href="#Commons-Logging实现机制" class="headerlink" title="Commons Logging实现机制"></a>Commons Logging实现机制</h3><p>Commons Logging是通过动态查找机制，在程序运行时，使用自己的ClassLoader寻找和载入本地具体的实现。详细策略可以查看commons-logging-*.jar包中的org.apache.commons.logging.impl.LogFactoryImpl.java文件。由于Osgi不同的插件使用独立的ClassLoader，Osgi的这种机制保证了插件互相独立, 其机制限制了Commons Logging在Osgi中的正常使用。</p>
-<h3 id="Slf4j实现机制"><a href="#Slf4j实现机制" class="headerlink" title="Slf4j实现机制"></a>Slf4j实现机制</h3><p>Slf4j在编译期间，静态绑定本地的Log库，因此可以在Osgi中正常使用。它是通过查找类路径下org.slf4j.impl.StaticLoggerBinder，然后在StaticLoggerBinder中进行绑定。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/gavanwanggw/p/7305218.html" target="_blank" rel="noopener">https://www.cnblogs.com/gavanwanggw/p/7305218.html</a></p>
+<h3 id="Log4J"><a href="#Log4J" class="headerlink" title="Log4J"></a>Log4J</h3><p>Log4J 有 1.X 版本和 2.X 版本，现在官方推荐使用 2.X 版本，2.X 版本在架构上进行了一些升级，比方支持參数API、支持异步appender、插件式架构等，配置文件也发生了一些变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">官方配置说明文档</span><br><span class="line">http://logging.apache.org/log4j/1.x/manual/configuration.html</span><br><span class="line">http://logging.apache.org/log4j/2.x/manual/configuration.html</span><br></pre></td></tr></table></figure>
+
+<p>使用 Log4J 框架首先需要引入依赖的包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Log4J --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;log4j-api&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;2.6.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;2.6.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>增加配置文件 log4j2.xml 放在 resource 目录下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;Configuration status=&quot;WARN&quot;&gt;</span><br><span class="line">    &lt;Appenders&gt;</span><br><span class="line">        &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot;/&gt;</span><br><span class="line">        &lt;/Console&gt;</span><br><span class="line">    &lt;/Appenders&gt;</span><br><span class="line">    &lt;Loggers&gt;</span><br><span class="line">        &lt;Root level=&quot;info&quot;&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;Console&quot;/&gt;</span><br><span class="line">        &lt;/Root&gt;</span><br><span class="line">    &lt;/Loggers&gt;</span><br><span class="line">&lt;/Configuration&gt;</span><br><span class="line">其中&lt;Root&gt;节点的 level 属性表示输出的最低级别。</span><br></pre></td></tr></table></figure>
+
+<p>测试类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.logging.log4j.LogManager;</span><br><span class="line">import org.apache.logging.log4j.Logger;</span><br><span class="line"></span><br><span class="line">/****</span><br><span class="line"> ** Log4J Demo</span><br><span class="line"> **/</span><br><span class="line">public class Log4jLog &#123;</span><br><span class="line">    public static void main(String args[]) &#123;</span><br><span class="line">        Logger logger = LogManager.getLogger(Log4jLog.class);</span><br><span class="line">        logger.debug(&quot;Debug Level&quot;);</span><br><span class="line">        logger.info(&quot;Info Level&quot;);</span><br><span class="line">        logger.warn(&quot;Warn Level&quot;);</span><br><span class="line">        logger.error(&quot;Error Level&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LogBack"><a href="#LogBack" class="headerlink" title="LogBack"></a>LogBack</h3><p>LogBack 其实可以说是 Log4J 的进化版，因为它们两个都是同一个人（Ceki Gülcü）设计的开源日志组件。LogBack 除了具备 Log4j 的所有优点之外，还解决了 Log4J 不能使用占位符的问题。</p>
+<p>引入依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- LogBack --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;1.1.7&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>配置 logback.xml 配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;appender name=&quot;STDOUT&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;</span><br><span class="line">        &lt;layout class=&quot;ch.qos.logback.classic.PatternLayout&quot;&gt;</span><br><span class="line">            &lt;Pattern&gt;%d&#123;HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n&lt;/Pattern&gt;</span><br><span class="line">        &lt;/layout&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line">    &lt;logger name=&quot;com.chanshuyi&quot; level=&quot;TRACE&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;root level=&quot;debug&quot;&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;STDOUT&quot; /&gt;</span><br><span class="line">    &lt;/root&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>LogBack 的日志级别区分可以细分到类或者包，这样就可以使日志记录变得更加灵活。之后在类文件中引入Logger类，并进行日志记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">/****</span><br><span class="line"> ** LogBack Demo</span><br><span class="line"> **/</span><br><span class="line">public class LogBack &#123;</span><br><span class="line">    static final Logger logger = LoggerFactory.getLogger(LogBack.class);</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        logger.trace(&quot;Trace Level.&quot;);</span><br><span class="line">        logger.debug(&quot;Debug Level.&quot;);</span><br><span class="line">        logger.info(&quot;Info Level.&quot;);</span><br><span class="line">        logger.warn(&quot;Warn Level.&quot;);</span><br><span class="line">        logger.error(&quot;Error Level.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>LogBack 解决了 Log4J 不能使用占位符的问题，这使得阅读日志代码非常方便。除此之外，LogBack 比 Log4J 有更快的运行速度，更好的内部实现。并且 LogBack 内部集成了 SLF4J 可以更原生地实现一些日志记录的实现。</p>
+<h3 id="门面模式：Facade模式"><a href="#门面模式：Facade模式" class="headerlink" title="门面模式：Facade模式"></a>门面模式：Facade模式</h3><p>现在Java应用日志收集都是采用日志框架(slf4j、apache commons logging)+日志系统（log4j、log4j2、LogBack、JUL等）的方式</p>
+<p>日志框架：提供日志调用的接口，实际的日志输出托付给日志系统实现。</p>
+<p>日志系统：负责输出日志，比如<br>    Log4j内部把日志系统抽象封装成Logger 、appender 、pattern 等实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">        Appenders：也被称为Handlers。负责将日志事件记录到目标位置。在将日志事件输出之前，Appenders使用Layouts来对事件进行格式化处理。</span><br><span class="line">        Layouts：也被称为Formatters，它负责对日志事件中的数据进行转换和格式化。Layouts决定了数据在一条日志记录中的终于形式。</span><br><span class="line">        Loggers：Logger负责捕捉事件并将其发送给合适的Appender。</span><br><span class="line"> ```  </span><br><span class="line">#### 实现机制</span><br><span class="line"></span><br><span class="line">##### Commons Logging实现机制</span><br><span class="line">Commons Logging是通过动态查找机制，在程序运行时，使用自己的ClassLoader寻找和载入本地具体的实现。</span><br><span class="line"></span><br><span class="line">##### Slf4j实现机制</span><br><span class="line">Slf4j在编译期间，静态绑定本地的Log库，因此可以在Osgi中正常使用。它是通过查找类路径下org.slf4j.impl.StaticLoggerBinder，然后在StaticLoggerBinder中进行绑定。 </span><br><span class="line"></span><br><span class="line">#### SLF4J：适配器</span><br><span class="line"></span><br><span class="line">SLF4J（Simple Logging Facade for Java，即Java简单日志记录接口集）是一个日志的接口规范，它对用户提供了统一的日志接口，屏蔽了不同日志组件的差异。</span><br><span class="line">* 使用了Facade设计模式，Slf4j本身只提供了一个slf4j-api-version.jar包，这个jar中主要是日志的抽象接口，jar中本身并没有对抽象出来的接口做实现。</span><br><span class="line">* 对于不同的日志实现方案(例如Logback，Log4j...)，封装出不同的桥接组件(例如logback-classic-version.jar，slf4j-log4j12-version.jar)</span><br><span class="line">![](images/slf4j-bind.png)</span><br><span class="line"></span><br><span class="line">##### SLF4J+JDKLog</span><br><span class="line">SLF4J + JDKLog 需要在 Maven 中导入以下依赖包：</span><br></pre></td></tr></table></figure>
+
+<dependency>
+  <groupid>org.slf4j</groupid>
+  <artifactid>slf4j-api</artifactid>
+  <version>1.7.21</version>
+</dependency>
+<dependency>
+  <groupid>org.slf4j</groupid>
+  <artifactid>slf4j-jdk14</artifactid>
+  <version>1.7.21</version>
+</dependency>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">测试类：</span><br></pre></td></tr></table></figure>
+
+<p>import org.slf4j.Logger;<br>import org.slf4j.LoggerFactory;</p>
+<p>/****<br> ** SLF4J + JDKLog<br> **/<br>public class Slf4jJDKLog {<br>    final static Logger logger = LoggerFactory.getLogger(Slf4jJDKLog.class);<br>    public static void main(String[] args) {<br>        logger.trace(“Trace Level.”);<br>        logger.info(“Info Level.”);<br>        logger.warn(“Warn Level.”);<br>        logger.error(“Error Level.”);<br>    }<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##### SLF4J+LOG4J</span><br><span class="line">需要依赖的 Jar 包：slf4j-api.jar、slf4j-412.jar、log4j.jar，导入Maven依赖：</span><br></pre></td></tr></table></figure>
+
+<!-- 2.SLF4J + Log4J -->
+<dependency>
+  <groupid>org.slf4j</groupid>
+  <artifactid>slf4j-api</artifactid>
+  <version>1.7.21</version>
+</dependency>
+<dependency>
+  <groupid>org.slf4j</groupid>
+  <artifactid>slf4j-log4j12</artifactid>
+  <version>1.7.21</version>
+</dependency>
+<dependency>
+  <groupid>log4j</groupid>
+  <artifactid>log4j</artifactid>
+  <version>1.2.17</version>
+</dependency>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">配置 log4j.xml 文件：</span><br></pre></td></tr></table></figure>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<p>&lt;log4j:configuration xmlns:log4j=’<a href="http://jakarta.apache.org/log4j/&#39;" target="_blank" rel="noopener">http://jakarta.apache.org/log4j/&#39;</a> &gt;</p>
+<pre><code>&lt;appender name=&quot;console&quot; class=&quot;org.apache.log4j.ConsoleAppender&quot;&gt;
+    &lt;layout class=&quot;org.apache.log4j.PatternLayout&quot;&gt;
+        &lt;param name=&quot;ConversionPattern&quot;
+               value=&quot;[%d{dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n&quot; /&gt;
+    &lt;/layout&gt;
+    &lt;!--过滤器设置输出的级别--&gt;
+    &lt;filter class=&quot;org.apache.log4j.varia.LevelRangeFilter&quot;&gt;
+        &lt;param name=&quot;levelMin&quot; value=&quot;debug&quot; /&gt;
+        &lt;param name=&quot;levelMax&quot; value=&quot;error&quot; /&gt;
+        &lt;param name=&quot;AcceptOnMatch&quot; value=&quot;true&quot; /&gt;
+    &lt;/filter&gt;
+&lt;/appender&gt;
+
+&lt;!-- 根logger的设置--&gt;
+&lt;root&gt;
+    &lt;priority value =&quot;debug&quot;/&gt;
+    &lt;appender-ref ref=&quot;console&quot;/&gt;
+&lt;/root&gt;</code></pre><p></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##### SLF4J+LogBack</span><br><span class="line">导入依赖：</span><br></pre></td></tr></table></figure>
+
+<dependency>
+  <groupid>org.slf4j</groupid>
+  <artifactid>slf4j-api</artifactid>
+  <version>1.7.21</version>
+</dependency>
+<dependency>
+  <groupid>ch.qos.logback</groupid>
+  <artifactid>logback-classic</artifactid>
+  <version>1.1.7</version>
+</dependency>
+<dependency>
+  <groupid>ch.qos.logback</groupid>
+  <artifactid>logback-core</artifactid>
+  <version>1.1.7</version>
+</dependency>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">配置 logback.xml 文件：</span><br></pre></td></tr></table></figure>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+<pre><code>&lt;root level=&quot;warn&quot;&gt;
+    &lt;appender-ref ref=&quot;STDOUT&quot; /&gt;
+&lt;/root&gt;</code></pre></configuration>
+```
+
+
+
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/gavanwanggw/p/7305218.html" target="_blank" rel="noopener">https://www.cnblogs.com/gavanwanggw/p/7305218.html</a><br><a href="https://www.cnblogs.com/chenhongliang/p/5312517.html" target="_blank" rel="noopener">https://www.cnblogs.com/chenhongliang/p/5312517.html</a><br><a href="http://www.imooc.com/article/21543" target="_blank" rel="noopener">http://www.imooc.com/article/21543</a></p>
 
     </div>
 
@@ -302,6 +449,12 @@
     
 
     <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
               <a href="/2019/08/28/Spring-AOP/" rel="next" title="Spring AOP">
@@ -313,6 +466,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+              <a href="/2019/08/30/Java-集合框架/" rel="prev" title="Java 集合框架">
+                Java 集合框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
     </footer>
@@ -364,29 +521,8 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-    
-      
-      
-      <div class="site-state-item site-state-categories">
-        
-          
-            <a href="/categories/">
-          
-        
-        
-        
-          
-        
-          
-        
-          
-        
-        <span class="site-state-item-count">3</span>
-        <span class="site-state-item-name">分类</span>
         </a>
       </div>
     
@@ -410,7 +546,15 @@
         
           
         
-        <span class="site-state-item-count">5</span>
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -431,7 +575,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-日志框架"><span class="nav-number">1.</span> <span class="nav-text">Java 日志框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现机制"><span class="nav-number">1.1.</span> <span class="nav-text">实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Commons-Logging实现机制"><span class="nav-number">1.1.1.</span> <span class="nav-text">Commons Logging实现机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Slf4j实现机制"><span class="nav-number">1.1.2.</span> <span class="nav-text">Slf4j实现机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.2.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-日志框架"><span class="nav-number">1.</span> <span class="nav-text">Java 日志框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类别"><span class="nav-number">1.1.</span> <span class="nav-text">类别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK日志"><span class="nav-number">1.1.1.</span> <span class="nav-text">JDK日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Log4J"><span class="nav-number">1.1.2.</span> <span class="nav-text">Log4J</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LogBack"><span class="nav-number">1.1.3.</span> <span class="nav-text">LogBack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#门面模式：Facade模式"><span class="nav-number">1.1.4.</span> <span class="nav-text">门面模式：Facade模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.2.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -455,9 +599,6 @@
   </span>
   <span class="author" itemprop="copyrightHolder">卢至彤</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.2.0</div>
 
         
 
@@ -530,6 +671,8 @@
 
 
 
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
 
 
 

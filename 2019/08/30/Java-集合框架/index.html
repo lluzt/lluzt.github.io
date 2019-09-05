@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.2.0',
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="Java集合框架集合框架图Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*。Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)。Java集合工具包框架图(如下)：  基本集合实现类都不">
+<meta name="keywords" content="java,java 集合框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 集合框架">
+<meta property="og:url" content="https://lluzt.github.io/2019/08/30/Java-集合框架/index.html">
+<meta property="og:site_name" content="卢至彤">
+<meta property="og:description" content="Java集合框架集合框架图Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*。Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)。Java集合工具包框架图(如下)：  基本集合实现类都不">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://lluzt.github.io/images/java-collection.jpg">
+<meta property="og:image" content="https://lluzt.github.io/images/ConcurrentSkipListMap.jpg">
+<meta property="og:image" content="https://lluzt.github.io/images/ConcurrentHashMap.jpg">
+<meta property="og:updated_time" content="2019-09-05T08:33:27.865Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 集合框架">
+<meta name="twitter:description" content="Java集合框架集合框架图Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*。Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)。Java集合工具包框架图(如下)：  基本集合实现类都不">
+<meta name="twitter:image" content="https://lluzt.github.io/images/java-collection.jpg">
+  <link rel="canonical" href="https://lluzt.github.io/2019/08/30/Java-集合框架/">
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Java 集合框架 | 卢至彤</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">卢至彤</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+    <ul id="menu" class="menu">
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-reference">
+      
+    
+
+    <a href="/reference/" rel="section"><i class="menu-item-icon fa fa-fw fa-simplybuilt"></i> <br/>reference</a>
+
+  </li>
+        <li class="menu-item menu-item-search">
+          <a href="javascript:;" class="popup-trigger">
+          
+            <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>搜索</a>
+        </li>
+      
+    </ul>
+    
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lluzt.github.io/2019/08/30/Java-集合框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="卢至彤">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卢至彤">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">Java 集合框架
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-30 18:06:11" itemprop="dateCreated datePublished" datetime="2019-08-30T18:06:11+08:00">2019-08-30</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-05 16:33:27" itemprop="dateModified" datetime="2019-09-05T16:33:27+08:00">2019-09-05</time>
+              </span>
+            
+          
+
+          <br/>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Java集合框架"><a href="#Java集合框架" class="headerlink" title="Java集合框架"></a>Java集合框架</h1><h2 id="集合框架图"><a href="#集合框架图" class="headerlink" title="集合框架图"></a>集合框架图</h2><p>Java集合是java提供的工具包，包含了常用的数据结构：集合、链表、队列、栈、数组、映射等。Java集合工具包位置是java.util.*。<br>Java集合主要可以划分为4个部分：List列表、Set集合、Map映射、工具类(Iterator迭代器、Enumeration枚举类、Arrays和Collections)。<br>Java集合工具包框架图(如下)：</p>
+<p><img src="/images/java-collection.jpg" alt></p>
+<p>基本集合实现类都不是线程安全的，比如：ArrayList, LinkedList, HashMap, HashSet, TreeMap, TreeSet等等。除了Vector和HashTable方法被synchronized修饰，是线程安全的，但性能低。</p>
+<h2 id="并发集合"><a href="#并发集合" class="headerlink" title="并发集合"></a>并发集合</h2><h3 id="同步封装器"><a href="#同步封装器" class="headerlink" title="同步封装器"></a>同步封装器</h3><p>Java集合框架提供了工厂方法创建线程安全的集合，接口一致，实现上用集合的本身作为锁的对象在方法上添加synchronized，实现性能低。<br>使用iterator来遍历线程安全的集合对象的时候，还是需要添加synchronized字段来确保线程安全。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; safeList = Collections.synchronizedList(new ArrayList&lt;&gt;());</span><br><span class="line">Map&lt;Integer, String&gt; safeMap = Collections.synchronizedMap(unsafeMap);</span><br></pre></td></tr></table></figure>
+
+<h3 id="并发集合-1"><a href="#并发集合-1" class="headerlink" title="并发集合"></a>并发集合</h3><p>J.U.C并发包，即java.util.concurrent包，是JDK的核心工具包，是JDK1.5之后，由 Doug Lea实现并引入，其中包含并发集合框架。</p>
+<p>整个java.util.concurrent包，按照功能可以大致划分如下：</p>
+<p>juc-locks 锁框架<br>juc-atomic 原子类框架<br>juc-sync 同步器框架<br>juc-collections 集合框架<br>juc-executors 执行器框架</p>
+<h4 id="Synchronized集合"><a href="#Synchronized集合" class="headerlink" title="Synchronized集合"></a>Synchronized集合</h4><p>集合类：HashTable<br>通过synchronized来保证线程安全的；即，多线程通过同一个“对象的同步锁”来实现并发控制。Hashtable在线程竞争激烈时，效率比较低。</p>
+<h4 id="CopyOnWrite集合"><a href="#CopyOnWrite集合" class="headerlink" title="CopyOnWrite集合"></a>CopyOnWrite集合</h4><p>集合类：CopyOnWriteArrayList 和 CopyOnWriteArraySet；适用场景：读的操作远远大于写操作的情景下。</p>
+<h5 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h5><p>往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。读时不需加锁，如果读的时候有多个线程正在向ArrayList添加数据，读还是会读到旧的数。<br><strong>ReentrantLock锁+volatile</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class CopyOnWriteArrayList&lt;E&gt;        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable &#123;    </span><br><span class="line">    //ReentrantLock锁，没有使用Synchronized</span><br><span class="line">    transient final ReentrantLock lock = new ReentrantLock();    </span><br><span class="line">    //集合底层数据结构：数组（volatile修饰共享可见）</span><br><span class="line">    private volatile transient Object[] array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="CopyOnWriteArraySet"><a href="#CopyOnWriteArraySet" class="headerlink" title="CopyOnWriteArraySet"></a>CopyOnWriteArraySet</h5><p>CopyOnWriteArraySet包含CopyOnWriteArrayList对象，是通过CopyOnWriteArrayList实现的。</p>
+<h4 id="CAS集合"><a href="#CAS集合" class="headerlink" title="CAS集合"></a>CAS集合</h4><p>集合类：ConcurrentLinkedQueue 和 ConcurrentSkipListMap.</p>
+<h5 id="ConcurrentLinkedQueue"><a href="#ConcurrentLinkedQueue" class="headerlink" title="ConcurrentLinkedQueue"></a>ConcurrentLinkedQueue</h5><p>ConcurrentLinkedQueue通过volatile来实现多线程对竞争资源的互斥访问的。ConcurrentLinkedQueue的链表Node中的next的类型是volatile，而且链表数据item的类型也是volatile。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private transient volatile Node&lt;E&gt; head;</span><br><span class="line">private transient volatile Node&lt;E&gt; tail;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ConcurrentSkipListMap"><a href="#ConcurrentSkipListMap" class="headerlink" title="ConcurrentSkipListMap"></a>ConcurrentSkipListMap</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HashMap（Entry数组+链表）：线程不安全</span><br><span class="line">HashTable （Entry数组+链表）: synchronized关键字修饰方法，线程同步</span><br><span class="line">LinkedHashMap（Entry数组+链表+双向链表）:保持插入顺序</span><br><span class="line">TreeMap（红黑树）：保持key排序</span><br></pre></td></tr></table></figure>
+
+<p>结构<br><img src="/images/ConcurrentSkipListMap.jpg" alt></p>
+<p>ConcurrentSkipListMap是线程安全的有序（实现了SortedMap接口，提供了一些根据键范围进行查找的功能；实现了NavigableMap接口，提供了指定Key返回最接近项、按升序/降序返回所有键的视图）的哈希表，适用于高并发的场景。<br>在非多线程的情况下，应当尽量使用TreeMap(红黑树实现)。此外对于并发性相对较低的并行程序可以使用Collections.synchronizedSortedMap将TreeMap进行包装，也可以提供较好的效率。对于高并发程序，应当使用ConcurrentSkipListMap(跳表实现)，能够提供更高的并发度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * Main insertion method.  Adds element if not present, or</span><br><span class="line">    * replaces value if present and onlyIfAbsent is false.</span><br><span class="line">    * @param key the key</span><br><span class="line">    * @param value the value that must be associated with key</span><br><span class="line">    * @param onlyIfAbsent if should not insert if already present</span><br><span class="line">    * @return the old value, or null if newly inserted</span><br><span class="line">    */</span><br><span class="line">   private V doPut(K key, V value, boolean onlyIfAbsent) &#123;</span><br><span class="line">       Node&lt;K,V&gt; z;             // added node</span><br><span class="line">       if (key == null)</span><br><span class="line">           throw new NullPointerException();</span><br><span class="line">       Comparator&lt;? super K&gt; cmp = comparator;</span><br><span class="line">       outer: for (;;) &#123;</span><br><span class="line">           for (Node&lt;K,V&gt; b = findPredecessor(key, cmp), n = b.next;;) &#123;</span><br><span class="line">               if (n != null) &#123;</span><br><span class="line">                   Object v; int c;</span><br><span class="line">                   Node&lt;K,V&gt; f = n.next;</span><br><span class="line">                   if (n != b.next)               // inconsistent read</span><br><span class="line">                       break;</span><br><span class="line">                   if ((v = n.value) == null) &#123;   // n is deleted</span><br><span class="line">                       n.helpDelete(b, f);</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">                   if (b.value == null || v == n) // b is deleted</span><br><span class="line">                       break;</span><br><span class="line">                   if ((c = cpr(cmp, key, n.key)) &gt; 0) &#123;</span><br><span class="line">                       b = n;</span><br><span class="line">                       n = f;</span><br><span class="line">                       continue;</span><br><span class="line">                   &#125;</span><br><span class="line">                   if (c == 0) &#123;</span><br><span class="line">                       if (onlyIfAbsent || n.casValue(v, value)) &#123;</span><br><span class="line">                           @SuppressWarnings(&quot;unchecked&quot;) V vv = (V)v;</span><br><span class="line">                           return vv;</span><br><span class="line">                       &#125;</span><br><span class="line">                       break; // restart if lost race to replace value</span><br><span class="line">                   &#125;</span><br><span class="line">                   // else c &lt; 0; fall through</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               z = new Node&lt;K,V&gt;(key, value, n);</span><br><span class="line">               if (!b.casNext(n, z))</span><br><span class="line">                   break;         // restart if lost race to append to b</span><br><span class="line">               break outer;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       int rnd = ThreadLocalRandom.nextSecondarySeed();</span><br><span class="line">       if ((rnd &amp; 0x80000001) == 0) &#123; // test highest and lowest bits</span><br><span class="line">           int level = 1, max;</span><br><span class="line">           while (((rnd &gt;&gt;&gt;= 1) &amp; 1) != 0)</span><br><span class="line">               ++level;</span><br><span class="line">           Index&lt;K,V&gt; idx = null;</span><br><span class="line">           HeadIndex&lt;K,V&gt; h = head;</span><br><span class="line">           if (level &lt;= (max = h.level)) &#123;</span><br><span class="line">               for (int i = 1; i &lt;= level; ++i)</span><br><span class="line">                   idx = new Index&lt;K,V&gt;(z, idx, null);</span><br><span class="line">           &#125;</span><br><span class="line">           else &#123; // try to grow by one level</span><br><span class="line">               level = max + 1; // hold in array and later pick the one to use</span><br><span class="line">               @SuppressWarnings(&quot;unchecked&quot;)Index&lt;K,V&gt;[] idxs =</span><br><span class="line">                   (Index&lt;K,V&gt;[])new Index&lt;?,?&gt;[level+1];</span><br><span class="line">               for (int i = 1; i &lt;= level; ++i)</span><br><span class="line">                   idxs[i] = idx = new Index&lt;K,V&gt;(z, idx, null);</span><br><span class="line">               for (;;) &#123;</span><br><span class="line">                   h = head;</span><br><span class="line">                   int oldLevel = h.level;</span><br><span class="line">                   if (level &lt;= oldLevel) // lost race to add level</span><br><span class="line">                       break;</span><br><span class="line">                   HeadIndex&lt;K,V&gt; newh = h;</span><br><span class="line">                   Node&lt;K,V&gt; oldbase = h.node;</span><br><span class="line">                   for (int j = oldLevel+1; j &lt;= level; ++j)</span><br><span class="line">                       newh = new HeadIndex&lt;K,V&gt;(oldbase, newh, idxs[j], j);</span><br><span class="line">                   if (casHead(h, newh)) &#123;</span><br><span class="line">                       h = newh;</span><br><span class="line">                       idx = idxs[level = oldLevel];</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           // find insertion points and splice in</span><br><span class="line">           splice: for (int insertionLevel = level;;) &#123;</span><br><span class="line">               int j = h.level;</span><br><span class="line">               for (Index&lt;K,V&gt; q = h, r = q.right, t = idx;;) &#123;</span><br><span class="line">                   if (q == null || t == null)</span><br><span class="line">                       break splice;</span><br><span class="line">                   if (r != null) &#123;</span><br><span class="line">                       Node&lt;K,V&gt; n = r.node;</span><br><span class="line">                       // compare before deletion check avoids needing recheck</span><br><span class="line">                       int c = cpr(cmp, key, n.key);</span><br><span class="line">                       if (n.value == null) &#123;</span><br><span class="line">                           if (!q.unlink(r))</span><br><span class="line">                               break;</span><br><span class="line">                           r = q.right;</span><br><span class="line">                           continue;</span><br><span class="line">                       &#125;</span><br><span class="line">                       if (c &gt; 0) &#123;</span><br><span class="line">                           q = r;</span><br><span class="line">                           r = r.right;</span><br><span class="line">                           continue;</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   if (j == insertionLevel) &#123;</span><br><span class="line">                       if (!q.link(r, t))</span><br><span class="line">                           break; // restart</span><br><span class="line">                       if (t.node.value == null) &#123;</span><br><span class="line">                           findNode(key);</span><br><span class="line">                           break splice;</span><br><span class="line">                       &#125;</span><br><span class="line">                       if (--insertionLevel == 0)</span><br><span class="line">                           break splice;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   if (--j &gt;= insertionLevel &amp;&amp; j &lt; level)</span><br><span class="line">                       t = t.down;</span><br><span class="line">                   q = q.down;</span><br><span class="line">                   r = q.right;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       return null;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * Returns a base-level node with key strictly less than given key,</span><br><span class="line">    * or the base-level header if there is no such node.  Also</span><br><span class="line">    * unlinks indexes to deleted nodes found along the way.  Callers</span><br><span class="line">    * rely on this side-effect of clearing indices to deleted nodes.</span><br><span class="line">    * @param key the key</span><br><span class="line">    * @return a predecessor of key</span><br><span class="line">    */</span><br><span class="line">   private Node&lt;K,V&gt; findPredecessor(Object key, Comparator&lt;? super K&gt; cmp) &#123;</span><br><span class="line">       if (key == null)</span><br><span class="line">           throw new NullPointerException(); // don&apos;t postpone errors</span><br><span class="line">       for (;;) &#123;</span><br><span class="line">           for (Index&lt;K,V&gt; q = head, r = q.right, d;;) &#123;</span><br><span class="line">               if (r != null) &#123;</span><br><span class="line">                   Node&lt;K,V&gt; n = r.node;</span><br><span class="line">                   K k = n.key;</span><br><span class="line">                   if (n.value == null) &#123;</span><br><span class="line">                       if (!q.unlink(r))</span><br><span class="line">                           break;           // restart</span><br><span class="line">                       r = q.right;         // reread r</span><br><span class="line">                       continue;</span><br><span class="line">                   &#125;</span><br><span class="line">                   if (cpr(cmp, key, k) &gt; 0) &#123;</span><br><span class="line">                       q = r;</span><br><span class="line">                       r = r.right;</span><br><span class="line">                       continue;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if ((d = q.down) == null)</span><br><span class="line">                   return q.node;</span><br><span class="line">               q = d;</span><br><span class="line">               r = d.right;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="对象锁（java-util-concurrent-lock-Lock）"><a href="#对象锁（java-util-concurrent-lock-Lock）" class="headerlink" title="对象锁（java.util.concurrent.lock.Lock）"></a>对象锁（java.util.concurrent.lock.Lock）</h4><p>这种锁和经典锁一样具有基本的功能，但还可以再特殊的情况下获取：如果当前没有被锁、超时、线程没有被打断。<br>不同于synchronization的代码,当方法在执行，Lock锁一直会被持有，直到调用unlock方法。有些实现通过这种机制把集合分为好几个部分来提供并发性能。比如：LinkedBlockingQueue，在队列的开后和结尾，所以在添加和删除的时候可以同时进行。<br>其他使用了这种机制的集合有：ConcurrentHashMap 和绝多数实现了BlockingQueue的实现类<br>同样的这一类的集合也具有不连贯的iterators，也不会抛出ConcurrentModificationException异常。</p>
+<h5 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h5><p>ConcurrentHashMap是线程安全的哈希表，它是通过“锁分段”来保证线程安全的。ConcurrentHashMap将哈希表分成许多片段(Segment)，每一个片段除了保存哈希表之外，本质上也是一个“可重入的互斥锁”(ReentrantLock)。多线程对同一个片段的访问，是互斥的；但是，对于不同片段的访问，却是可以同步进行的。</p>
+<p><img src="/images/ConcurrentHashMap.jpg" alt></p>
+<h2 id="集合序列化"><a href="#集合序列化" class="headerlink" title="集合序列化"></a>集合序列化</h2><p>HashMap和ArrayList等实现时，以transient修饰数组。<br>自定义了序列化和反序列化的方法:<br>1.HashMap把当前buckets数量，size和里面的k,v对一一给写到了对象输出流里面，然后在反序列化的时候，再从流里面一一的解析出来，然后又重新恢复出了HashMap的整个数据结构。<br>2.ArrayList里面也是把其size和里面不为null的数据给写到流里面，然后在反序列化的时候重新使用数据把数据结构恢复出来。<br>原因：<br>HashMap:不同的jvm虚拟机对于同一个key产生的hashCode可能是不一样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public native int hashCode();</span><br></pre></td></tr></table></figure>
+
+<p>ArrayList:缩短扩容数组长度</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.codejava.net/java-core/collections/understanding-collections-and-thread-safety-in-java" target="_blank" rel="noopener">https://www.codejava.net/java-core/collections/understanding-collections-and-thread-safety-in-java</a><br><a href="https://www.cnblogs.com/java-zzl/p/9767255.html" target="_blank" rel="noopener">https://www.cnblogs.com/java-zzl/p/9767255.html</a><br><a href="https://www.cnblogs.com/skywang12345/p/3498537.html" target="_blank" rel="noopener">https://www.cnblogs.com/skywang12345/p/3498537.html</a><br><a href="https://my.oschina.net/u/1027043/blog/1627441" target="_blank" rel="noopener">https://my.oschina.net/u/1027043/blog/1627441</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/java-集合框架/" rel="tag"># java 集合框架</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/2019/08/29/Java-日志框架/" rel="next" title="Java 日志框架">
+                <i class="fa fa-chevron-left"></i> Java 日志框架
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/2019/08/30/Java-日志框架机制/" rel="prev" title="Java  日志框架机制">
+                Java  日志框架机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">卢至彤</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java集合框架"><span class="nav-number">1.</span> <span class="nav-text">Java集合框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#集合框架图"><span class="nav-number">1.1.</span> <span class="nav-text">集合框架图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发集合"><span class="nav-number">1.2.</span> <span class="nav-text">并发集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步封装器"><span class="nav-number">1.2.1.</span> <span class="nav-text">同步封装器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发集合-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">并发集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Synchronized集合"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Synchronized集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CopyOnWrite集合"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">CopyOnWrite集合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CopyOnWriteArrayList"><span class="nav-number">1.2.2.2.1.</span> <span class="nav-text">CopyOnWriteArrayList</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CopyOnWriteArraySet"><span class="nav-number">1.2.2.2.2.</span> <span class="nav-text">CopyOnWriteArraySet</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS集合"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">CAS集合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ConcurrentLinkedQueue"><span class="nav-number">1.2.2.3.1.</span> <span class="nav-text">ConcurrentLinkedQueue</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ConcurrentSkipListMap"><span class="nav-number">1.2.2.3.2.</span> <span class="nav-text">ConcurrentSkipListMap</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象锁（java-util-concurrent-lock-Lock）"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">对象锁（java.util.concurrent.lock.Lock）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ConcurrentHashMap"><span class="nav-number">1.2.2.4.1.</span> <span class="nav-text">ConcurrentHashMap</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合序列化"><span class="nav-number">1.3.</span> <span class="nav-text">集合序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">卢至彤</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+  
+  <script src="/js/schemes/muse.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.2.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
