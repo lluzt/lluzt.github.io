@@ -322,9 +322,9 @@
     
     
     <entry>
-      <title>参考</title>
-      <link href="/reference/index.html"/>
-      <url>/reference/index.html</url>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -333,9 +333,9 @@
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>参考</title>
+      <link href="/reference/index.html"/>
+      <url>/reference/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
