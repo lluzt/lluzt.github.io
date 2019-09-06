@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.2.0',
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: 'search.xml'
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="JDK ReferenceJava目前有4中引用类型： 强引用(Strong Reference)：普通的的引用类型，new一个对象默认得到的引用就是强引用，只要对象存在强引用，就不会被GC。软引用(Soft Reference)：相对较弱的引用，垃圾回收器会在内存不足时回收弱引用指向的对象。JVM会在抛出OOME前清理所有弱引用指向的对象，如果清理完还是内存不足，才会抛出OOME。所以软引用一般">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDK Reference">
+<meta property="og:url" content="https://lluzt.github.io/2019/09/04/JDK-Reference类/index.html">
+<meta property="og:site_name" content="卢至彤">
+<meta property="og:description" content="JDK ReferenceJava目前有4中引用类型： 强引用(Strong Reference)：普通的的引用类型，new一个对象默认得到的引用就是强引用，只要对象存在强引用，就不会被GC。软引用(Soft Reference)：相对较弱的引用，垃圾回收器会在内存不足时回收弱引用指向的对象。JVM会在抛出OOME前清理所有弱引用指向的对象，如果清理完还是内存不足，才会抛出OOME。所以软引用一般">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://lluzt.github.io/images/reference.png">
+<meta property="og:image" content="https://lluzt.github.io/images/reference-schedule.png">
+<meta property="og:updated_time" content="2019-09-06T05:22:51.010Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JDK Reference">
+<meta name="twitter:description" content="JDK ReferenceJava目前有4中引用类型： 强引用(Strong Reference)：普通的的引用类型，new一个对象默认得到的引用就是强引用，只要对象存在强引用，就不会被GC。软引用(Soft Reference)：相对较弱的引用，垃圾回收器会在内存不足时回收弱引用指向的对象。JVM会在抛出OOME前清理所有弱引用指向的对象，如果清理完还是内存不足，才会抛出OOME。所以软引用一般">
+<meta name="twitter:image" content="https://lluzt.github.io/images/reference.png">
+  <link rel="canonical" href="https://lluzt.github.io/2019/09/04/JDK-Reference类/">
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>JDK Reference | 卢至彤</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">卢至彤</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+    <ul id="menu" class="menu">
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-reference">
+      
+    
+
+    <a href="/reference/" rel="section"><i class="menu-item-icon fa fa-fw fa-simplybuilt"></i> <br/>reference</a>
+
+  </li>
+    </ul>
+    
+
+</nav>
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lluzt.github.io/2019/09/04/JDK-Reference类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="卢至彤">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卢至彤">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">JDK Reference
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-04 17:54:58" itemprop="dateCreated datePublished" datetime="2019-09-04T17:54:58+08:00">2019-09-04</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-06 13:22:51" itemprop="dateModified" datetime="2019-09-06T13:22:51+08:00">2019-09-06</time>
+              </span>
+            
+          
+
+          <br/>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="JDK-Reference"><a href="#JDK-Reference" class="headerlink" title="JDK Reference"></a>JDK Reference</h1><p>Java目前有4中引用类型：</p>
+<p>强引用(Strong Reference)：普通的的引用类型，new一个对象默认得到的引用就是强引用，只要对象存在强引用，就不会被GC。<br>软引用(Soft Reference)：相对较弱的引用，垃圾回收器会在内存不足时回收弱引用指向的对象。JVM会在抛出OOME前清理所有弱引用指向的对象，如果清理完还是内存不足，才会抛出OOME。所以软引用一般用于实现内存敏感缓存。<br>弱引用(Weak Reference)：更弱的引用类型，垃圾回收器在GC时会回收此对象，也可以用于实现缓存，比如JDK提供的WeakHashMap。<br>虚引用(Phantom Reference)：一种特殊的引用类型，不能通过虚引用获取到关联对象，只是用于获取对象被回收的通知。</p>
+<p>Reference是所有引用类型的父类，定义了引用的公共行为和操作。<br><img src="/images/reference.png" alt></p>
+<h2 id="Reference-构造函数"><a href="#Reference-构造函数" class="headerlink" title="Reference 构造函数"></a>Reference 构造函数</h2><p>Reference类中有两个构造函数，一个需要传入引用队列，另一个则不需要。</p>
+<p>这个队列的意义在于增加一种判断机制，可以在外部通过监控这个队列来判断对象是否被回收。如果一个对象即将被回收，那么引用这个对象的reference对象就会被放到这个队列中。通过监控这个队列，就可以取出这个reference后再进行一些善后处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Reference(T referent) &#123;</span><br><span class="line">    this(referent, null);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Reference(T referent, ReferenceQueue&lt;? super T&gt; queue) &#123;</span><br><span class="line">    this.referent = referent;</span><br><span class="line">    this.queue = (queue == null) ? ReferenceQueue.NULL : queue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> volatile ReferenceQueue&lt;? super T&gt; queue;</span><br><span class="line"></span><br><span class="line">/* When active:   NULL</span><br><span class="line"> *     pending:   this</span><br><span class="line"> *    Enqueued:   next reference in queue (or this if last)</span><br><span class="line"> *    Inactive:   this</span><br><span class="line"> */</span><br><span class="line">@SuppressWarnings(&quot;rawtypes&quot;)</span><br><span class="line">volatile Reference next;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference-状态"><a href="#Reference-状态" class="headerlink" title="Reference 状态"></a>Reference 状态</h2><p>在Reference类中，有一段很长的注释，来对内部对象referent的状态进行了说明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Active:</span><br><span class="line">reference如果处于此状态，会受到垃圾处理器的特殊处理。当垃圾回收器检测到referent已经更改为合适的状态后(没有任何强引用和软引用关联)，会在某个时间将实例的状态更改为Pending或者Inactive。具体取决于实例是否在创建时注册到一个引用队列中。</span><br><span class="line">在前一种情况下（将状态更改为Pending），他还会将实例添加到pending-Reference列表中。新创建的实例处于活动状态。</span><br><span class="line"></span><br><span class="line">Pending:</span><br><span class="line">实例如果处于此状态，表明它是pending-Reference列表中的一个元素，等待被Reference-handler线程做入队处理。未注册引用队列的实例永远不会处于该状态。</span><br><span class="line"></span><br><span class="line">Enqueued:</span><br><span class="line">实例如果处于此状态，表明它已经是它注册的引用队列中的一个元素，当它被从引用队列中移除时，它的状态将会变为Inactive，未注册引用队列的实例永远不会处于该状态。</span><br><span class="line"></span><br><span class="line">Inactive:</span><br><span class="line">实例如果处于此状态，它的状态将永远不会再改变了。</span><br></pre></td></tr></table></figure>
+
+<p>JVM中并没有显示定义这样的状态，而是通过next和queue来进行判断。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Active：如果创建Reference对象时，没有传入ReferenceQueue，queue=ReferenceQueue.NULL。如果有传入，则queue指向传入的ReferenceQueue队列对象。next == null；</span><br><span class="line"></span><br><span class="line">Pending：queue为初始化时传入ReferenceQueue对象；next == this；</span><br><span class="line"></span><br><span class="line">Enqueue：queue == ReferenceQueue.ENQUEUED；next为queue中下一个reference对象，或者若为最后一个了next == this；</span><br><span class="line"></span><br><span class="line">Inactive：queue == ReferenceQueue.NULL; next == this.</span><br><span class="line">如果next==null，则reference处于Active状态；</span><br><span class="line"></span><br><span class="line">如果next!=null，queue == ReferenceQueue.NULL，则reference处于Inactive状态；</span><br><span class="line"></span><br><span class="line">如果next!=null，queue == ReferenceQueue.ENQUEUED，则reference处于Enqueue状态；</span><br><span class="line"></span><br><span class="line">如果next != null，queue != ReferenceQueue.NULL &amp;&amp; queu != ReferenceQueue.ENQUEUED ，则reference处于Pending状态。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/reference-schedule.png" alt></p>
+<p>reference引用的对象被回收后，垃圾回收器把Reference添加到pending-Reference链表中(Reference对象中有一个pending成员变量，是静态变量，它就是这个pending-Reference链表的头结点。要组成链表，还需要一个指针，指向下一个节点，这个对应的是java.lang.ref.Reference#discovered这个成员变量)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/* When active:   next element in a discovered reference list maintained by GC (or this if last)</span><br><span class="line"> *     pending:   next element in the pending list (or null if last)</span><br><span class="line"> *   otherwise:   NULL</span><br><span class="line"> */</span><br><span class="line">transient private Reference&lt;T&gt; discovered;  /* used by VM */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* Object used to synchronize with the garbage collector.  The collector</span><br><span class="line"> * must acquire this lock at the beginning of each collection cycle.  It is</span><br><span class="line"> * therefore critical that any code holding this lock complete as quickly</span><br><span class="line"> * as possible, allocate no new objects, and avoid calling user code.</span><br><span class="line"> */</span><br><span class="line">static private class Lock &#123; &#125;</span><br><span class="line">private static Lock lock = new Lock();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* List of References waiting to be enqueued.  The collector adds</span><br><span class="line"> * References to this list, while the Reference-handler thread removes</span><br><span class="line"> * them.  This list is protected by the above lock object. The</span><br><span class="line"> * list uses the discovered field to link its elements.</span><br><span class="line"> */</span><br><span class="line">private static Reference&lt;Object&gt; pending = null;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ReferenceHandler线程"><a href="#ReferenceHandler线程" class="headerlink" title="ReferenceHandler线程"></a>ReferenceHandler线程</h2><p>Reference类中有一个特殊的线程叫ReferenceHandler，专门处理那些pending链表中的引用对象。ReferenceHandler类是Reference类的一个静态内部类，继承自Thread，所以这条线程就叫它ReferenceHandler线程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">private static class ReferenceHandler extends Thread &#123;</span><br><span class="line"></span><br><span class="line">    private static void ensureClassInitialized(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            Class.forName(clazz.getName(), true, clazz.getClassLoader());</span><br><span class="line">        &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">            throw (Error) new NoClassDefFoundError(e.getMessage()).initCause(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        // pre-load and initialize InterruptedException and Cleaner classes</span><br><span class="line">        // so that we don&apos;t get into trouble later in the run loop if there&apos;s</span><br><span class="line">        // memory shortage while loading/initializing them lazily.</span><br><span class="line">        ensureClassInitialized(InterruptedException.class);</span><br><span class="line">        ensureClassInitialized(Cleaner.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ReferenceHandler(ThreadGroup g, String name) &#123;</span><br><span class="line">        super(g, name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run() &#123;</span><br><span class="line">        while (true) &#123;</span><br><span class="line">            tryHandlePending(true);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Try handle pending &#123;@link Reference&#125; if there is one.&lt;p&gt;</span><br><span class="line"> * Return &#123;@code true&#125; as a hint that there might be another</span><br><span class="line"> * &#123;@link Reference&#125; pending or &#123;@code false&#125; when there are no more pending</span><br><span class="line"> * &#123;@link Reference&#125;s at the moment and the program can do some other</span><br><span class="line"> * useful work instead of looping.</span><br><span class="line"> *</span><br><span class="line"> * @param waitForNotify if &#123;@code true&#125; and there was no pending</span><br><span class="line"> *                      &#123;@link Reference&#125;, wait until notified from VM</span><br><span class="line"> *                      or interrupted; if &#123;@code false&#125;, return immediately</span><br><span class="line"> *                      when there is no pending &#123;@link Reference&#125;.</span><br><span class="line"> * @return &#123;@code true&#125; if there was a &#123;@link Reference&#125; pending and it</span><br><span class="line"> *         was processed, or we waited for notification and either got it</span><br><span class="line"> *         or thread was interrupted before being notified;</span><br><span class="line"> *         &#123;@code false&#125; otherwise.</span><br><span class="line"> */</span><br><span class="line">static boolean tryHandlePending(boolean waitForNotify) &#123;</span><br><span class="line">    Reference&lt;Object&gt; r;</span><br><span class="line">    Cleaner c;</span><br><span class="line">    try &#123;</span><br><span class="line">        synchronized (lock) &#123;</span><br><span class="line">            if (pending != null) &#123;</span><br><span class="line">                r = pending;</span><br><span class="line">                // &apos;instanceof&apos; might throw OutOfMemoryError sometimes</span><br><span class="line">                // so do this before un-linking &apos;r&apos; from the &apos;pending&apos; chain...</span><br><span class="line">                c = r instanceof Cleaner ? (Cleaner) r : null;</span><br><span class="line">                // unlink &apos;r&apos; from &apos;pending&apos; chain</span><br><span class="line">                pending = r.discovered;</span><br><span class="line">                r.discovered = null;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                // The waiting on the lock may cause an OutOfMemoryError</span><br><span class="line">                // because it may try to allocate exception objects.</span><br><span class="line">                if (waitForNotify) &#123;</span><br><span class="line">                    lock.wait();</span><br><span class="line">                &#125;</span><br><span class="line">                // retry if waited</span><br><span class="line">                return waitForNotify;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (OutOfMemoryError x) &#123;</span><br><span class="line">        // Give other threads CPU time so they hopefully drop some live references</span><br><span class="line">        // and GC reclaims some space.</span><br><span class="line">        // Also prevent CPU intensive spinning in case &apos;r instanceof Cleaner&apos; above</span><br><span class="line">        // persistently throws OOME for some time...</span><br><span class="line">        Thread.yield();</span><br><span class="line">        // retry</span><br><span class="line">        return true;</span><br><span class="line">    &#125; catch (InterruptedException x) &#123;</span><br><span class="line">        // retry</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Fast path for cleaners</span><br><span class="line">    if (c != null) &#123;</span><br><span class="line">        c.clean();</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ReferenceQueue&lt;? super Object&gt; q = r.queue;</span><br><span class="line">    if (q != ReferenceQueue.NULL) q.enqueue(r);</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ReferenceHandler线程是在Reference的static块中启动的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">static &#123;</span><br><span class="line">    ThreadGroup tg = Thread.currentThread().getThreadGroup();</span><br><span class="line">    for (ThreadGroup tgn = tg;</span><br><span class="line">         tgn != null;</span><br><span class="line">         tg = tgn, tgn = tg.getParent());</span><br><span class="line">    Thread handler = new ReferenceHandler(tg, &quot;Reference Handler&quot;);</span><br><span class="line">    /* If there were a special system-only priority greater than</span><br><span class="line">     * MAX_PRIORITY, it would be used here</span><br><span class="line">     */</span><br><span class="line">    handler.setPriority(Thread.MAX_PRIORITY);</span><br><span class="line">    handler.setDaemon(true);</span><br><span class="line">    handler.start();</span><br><span class="line"></span><br><span class="line">    // provide access in SharedSecrets</span><br><span class="line">    SharedSecrets.setJavaLangRefAccess(new JavaLangRefAccess() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean tryHandlePendingReference() &#123;</span><br><span class="line">            return tryHandlePending(false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://imushan.com/2018/08/19/java/language/JDK%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-Reference/" target="_blank" rel="noopener">http://imushan.com/2018/08/19/java/language/JDK%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-Reference/</a><br><a href="https://www.cnblogs.com/mfrank/p/9843489.html" target="_blank" rel="noopener">https://www.cnblogs.com/mfrank/p/9843489.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+        
+        <div class="post-tags">
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+              <a href="/2019/09/04/JDK-Unsafe类/" rel="next" title="Java Unsafe类">
+                <i class="fa fa-chevron-left"></i> Java Unsafe类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+              <a href="/2019/09/05/JDK-SharedSecret类/" rel="prev" title="Java SharedSecret类">
+                Java SharedSecret类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">卢至彤</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JDK-Reference"><span class="nav-number">1.</span> <span class="nav-text">JDK Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference-构造函数"><span class="nav-number">1.1.</span> <span class="nav-text">Reference 构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference-状态"><span class="nav-number">1.2.</span> <span class="nav-text">Reference 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReferenceHandler线程"><span class="nav-number">1.3.</span> <span class="nav-text">ReferenceHandler线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">卢至彤</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+  
+  <script src="/js/schemes/muse.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
